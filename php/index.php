@@ -1,156 +1,656 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Welcome to OpenShift</title>
-  <style>
-  html { 
-  background: black; 
-  }
-  body {
-    background: #333;
-    background: -webkit-linear-gradient(top, black, #666);
-    background: -o-linear-gradient(top, black, #666);
-    background: -moz-linear-gradient(top, black, #666);
-    background: linear-gradient(top, black, #666);
-    color: white;
-    font-family: "Helvetica Neue",Helvetica,"Liberation Sans",Arial,sans-serif;
-    width: 40em;
-    margin: 0 auto;
-    padding: 3em;
-  }
-  a {
-    color: white;
-  }
+﻿<?php
+include "header.php";
 
-  h1 {
-    text-transform: capitalize;
-    -moz-text-shadow: -1px -1px 0 black;
-    -webkit-text-shadow: 2px 2px 2px black;
-    text-shadow: -1px -1px 0 black;
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
-    background: #CC0000;
-    width: 22.5em;
-    margin: 1em -2em;
-    padding: .3em 0 .3em 1.5em;
-    position: relative;
-  }
-  h1:before {
-    content: '';
-    width: 0;
-    height: 0;
-    border: .5em solid #91010B;
-    border-left-color: transparent;
-    border-bottom-color: transparent;
-    position: absolute;
-    bottom: -1em;
-    left: 0;
-    z-index: -1000;
-  }
-  h1:after {
-    content: '';
-    width: 0;
-    height: 0;
-    border: .5em solid #91010B;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    position: absolute;
-    bottom: -1em;
-    right: 0;
-    z-index: -1000;
-  }
-  h2 { 
-    margin: 2em 0 .5em;
-    border-bottom: 1px solid #999;
-  }
+?>
 
-  pre {
-    background: black;
-    padding: 1em 0 0;
-    -webkit-border-radius: 1em;
-    -moz-border-radius: 1em;
-    border-radius: 1em;
-    color: #9cf;
-  }
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+    This site was based on the Represent.LA project by:
+    - Alex Benzer (@abenzer)
+    - Tara Tiger Brown (@tara)
+    - Sean Bonner (@seanbonner)
+    
+    Create a map for your startup community!
+    https://github.com/abenzer/represent-map
+    -->
+    <title>Startup community - Mexico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href="./bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="./bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="map.css" type="text/css" />
+    <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="mobile.css" type="text/css" />
+    <script src="./scripts/jquery-1.7.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./bootstrap/js/bootstrap-typeahead.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="./scripts/label.js"></script>
+    
+    <script type="text/javascript">
+      var map;
+      var infowindow = null;
+      var gmarkers = [];
+      var markerTitles =[];
+      var highestZIndex = 0;  
+      var agent = "default";
+      var zoomControl = true;
 
-  ul { 
-    margin: 0; 
-    padding: 0;
-  }
-  li {
-    list-style-type: none;
-    padding: .5em 0;
-  }
 
-  .brand {
-    display: block;
-    text-decoration: none;
-  }
-  .brand .brand-image {
-    float: left;
-    border: none;
-  }
-  .brand .brand-text {
-    float: left;
-    font-size: 24px;
-    line-height: 24px;
-    padding: 4px 0;
-    color: white;
-    text-transform: uppercase;
-  }
-  .brand:hover,
-  .brand:active {
-    text-decoration: underline;
-  }
+      // detect browser agent
+      $(document).ready(function(){
+        if(navigator.userAgent.toLowerCase().indexOf("iphone") > -1 || navigator.userAgent.toLowerCase().indexOf("ipod") > -1) {
+          agent = "iphone";
+          zoomControl = false;
+        }
+        if(navigator.userAgent.toLowerCase().indexOf("ipad") > -1) {
+          agent = "ipad";
+          zoomControl = false;
+        }
+      }); 
+      
 
-  .brand:before,
-  .brand:after {
-    content: ' ';
-    display: table;
-  }
-  .brand:after {
-    clear: both;
-  }
-  </style>
-</head>
-<body>
-  <a href="http://openshift.com" class="brand">
-    <img class="brand-image"
-      alt="OpenShift logo"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAgCAYAAABU1PscAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAARHgAAER4B27UUrQAABUhJREFUWMPFWFlsVGUU/s5/70zbaSltA7RQpJ2lC9CFkQkWIgSJxkAhRA0JCYFq4hPG6JsoGKNCtPigxqhvGlPAuGIaE4igNaElbIW2yNL2tkOtTYGWCqWF2e79fCh7p1Bmpnge/3vuOef7z/nPJiTxMHS6pMRuu6YqFNTTAJYSyAU4GZB0AH2AGCANAfc5Qrba6T3HrmECScYLwCioSIcV2AjidQDZ45Q/LJRaWrLV03X89P8GwHB5XwG4DcDkGPWEBKimNrzN094efGQAzjm9GWHFr4R4LiHKgFaSL3r8zYcmHEBbkW+KFo7UEyhKsNeHlMgyV8eJo4kQpqId9ub6HCoc+XWcxl8lcBTATwDax8GfZtHa054/f/bNg8ZcnyOhHjBc834E8MJ9/vML8aYZQX1hd1PP3WFXkhMRfYkIlpOoGomc0WRRTnch+XAQWG2KTNJNLbuy68C/cQMwXOWrAKkdgz8A8kMdg9X5fn/gQcI7POXLaMk3AGbe/P8SbF0D1KcGRGXpIJJpIQkWBHhnsf/Ie3GF0DmnMxmQT8bg7RellXr8ze+Ox3gAcBvNf+iUUhH5FODLSvScAerDGpiVxTAyGUYKzICA34nCwbhDyHB7N4L8PAofhVzh9jfvjffR/ZZTnupIsR8G0C9EjW7Tfnii/dBgrPL0u83kmjHy33Z3Z/zG97uKi7xpWA8GHZpE1mcZRne8MvXblfbxqQAWR+Fp+mdW5hZPjAqu5JVlhrTwOgrXi2ABbjjchF4FYGvi0qhprgagjYod4OeldXWRWBUEtdBjEH4mwIJ7vF2V4Dqgot0+NEFdPAqmdZ5tAXA8Slx6LrpKsxMHQJge5ft1v0oe2OOu+PZ39+LCOFqImqiXo8JzAeBkXlnmnoKK9LgACJl2R9gELsHW1saUwKCpnbIoa8UMTokVgGXJmSjHkfNWUlWDy9d6USVdyoiEF8b1iElxQKHuPG1D/bCtVEBhCiykMQQFgCK2mN2sSx+tkdcbhGq7wKSkK9RnmsCG2xVSLsflAR1S6eloWhawtF8yGJGskSJDBdQR8pIjZMXcfFmm1gOg2lRaSRdT1AD1PBPQbCAyxcRMifCpc41HEtILNbh9s8SSvYTUmBp2LDGOdCOB1OD0XbeByWliwY5bugc9nU2T4wqhCx7PNAV9bSGwARp3TzVaP0j09GQUzJubLUgefY3SEHMh63MVr4FIlYL+7C1AlCwAmxM+/plYy6hhgN2xp1HBawAr72krnH3uoicTaXyHx7uIwKZoT0QhUhszAAI7x7ivL0a60/jp77yyTFrWt6N6rxE99c7OkxdiBhC2y/cAorXHpama/aNG8dkOO32b6p3zTzXmeysfPu4LkkKafA3IrGjfCfPtuGfiPlfx+xBsuWtwpa3zIuy2YaoZ5o0eSQc5TVnb53aeeAuk9eBtRvkqUH0MoTsqA7nL429eFzeA3lyfQ08eaiNgCrjTYNozQ1S+WyUfQCosTLqZ+oiDUNwhggPujpZTuCMXGwUV6cJgKYnNIJffR3df2NLLZ5871puQrUR//pzpU7rOnAfJP53eDELrsoPpk4RIGRn5xqIBAAdBOCAoBjBjPJsJUdZSt9HSOGFrld5cn2M4KbwfkIUJzqYhQlYWdJ7YN2FrFQCY3nPsmk61AuSuRNYyUdaiRBk/7tViR37Zcir1JYC8WNshgjWWPfhq0dmzVx/5bhQAWnLKU1Md8gZHOsjxAgmD2GEKq4s6m1sxASQPu16HiBh53goqPg9ac0TEcwNQEOBlQAZEcMgC94dDZt2c7r8GMIH0H43ZRDC51RVCAAAAAElFTkSuQmCC">
-    <div class="brand-text"><strong>Open</strong>Shift</div>
-  </a>
-  <h1>
-    Welcome to OpenShift
-  </h1>
-  <p>
-    Place your application here
-  </p>
-  <p>
-    In order to commit to your new project, go to your projects git repo (created with the rhc app create command).  Make your changes, then run:
-  </p>
-  <pre>
-    git commit -a -m 'Some commit message'
-    git push
-  </pre>
-  <p>
-    Then reload this page.
-  </p>
-  
-  <h2>
-    What's next?
-  </h2>
-  <ul>
-    <li>
-      Why not visit us at <a href="http://openshift.redhat.com">http://openshift.redhat.com</a>, or
-    </li>
-    <li>
-      You could get help in the <a href="http://www.redhat.com/openshift">OpenShift forums</a>, or
-    </li>
-    <li>
-      You're welcome to come chat with us in our IRC channel at #openshift on freenode.net
-    </li>
-  </ul>
-</body>
+      // resize marker list onload/resize
+      $(document).ready(function(){
+        newHeight = $('html').height() - $('#menu > .wrapper').height();
+        $('#list').css('height', newHeight + "px"); 
+      });
+      $(window).resize(function() {
+        resizeList();
+      });
+      
+      // resize marker list to fit window
+      function resizeList() {
+        newHeight = $('html').height() - $('#menu > .wrapper').height();
+        $('#list').css('height', newHeight + "px"); 
+      }
+
+
+      // initialize map
+      function initialize() {
+        // set map styles
+        var mapStyles = [
+         {
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [
+              { hue: "#8800ff" },
+              { lightness: 100 }
+            ]
+          },{
+            featureType: "road",
+            stylers: [
+              { visibility: "on" },
+              { hue: "#91ff00" },
+              { saturation: -62 },
+              { gamma: 1.98 },
+              { lightness: 45 }
+            ]
+          },{
+            featureType: "water",
+            stylers: [
+              { hue: "#005eff" },
+              { gamma: 0.72 },
+              { lightness: 42 }
+            ]
+          },{
+            featureType: "transit.line",
+            stylers: [
+              { visibility: "off" }
+            ]
+          },{
+            featureType: "administrative.locality",
+            stylers: [
+              { visibility: "on" }
+            ]
+          },{
+            featureType: "administrative.neighborhood",
+            elementType: "geometry",
+            stylers: [
+              { visibility: "simplified" }
+            ]
+          },{
+            featureType: "landscape",
+            stylers: [
+              { visibility: "on" },
+              { gamma: 0.41 },
+              { lightness: 46 }
+            ]
+          },{
+            featureType: "administrative.neighborhood",
+            elementType: "labels.text",
+            stylers: [
+              { visibility: "on" },
+              { saturation: 33 },
+              { lightness: 20 }
+            ]
+          }
+        ];
+
+        // set map options
+        var myOptions = {
+          zoom: 7,
+          //minZoom: 10,
+          center: new google.maps.LatLng(19.462708,-99.135338),
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          panControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          zoomControl: zoomControl,
+          styles: mapStyles,
+          zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL,
+            position: google.maps.ControlPosition.TOP_LEFT
+          }
+        };
+        map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+        zoomLevel = map.getZoom();
+
+        // prepare infowindow
+        infowindow = new google.maps.InfoWindow({
+          content: "holding..."
+        });
+
+        // only show marker labels if zoomed in
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+          zoomLevel = map.getZoom();
+          if(zoomLevel <= 15) {
+            $(".marker_label").css("display", "none");
+          } else {
+            $(".marker_label").css("display", "inline");
+          }
+        });
+        // markers array: name, type (icon), lat, long, description, uri, address
+        markers = new Array();
+        <?php
+          $types = Array(
+              Array('startup', 'Startups'),
+              Array('accelerator','Accelerators'),  
+              Array('incubator', 'Incubators'), 
+              Array('coworking', 'Coworking'), 
+               Array('investor', 'Investors'),
+              //Array('service', 'Consulting'),
+              Array('event', 'Events'),
+              );
+          $marker_id = 0;
+		  #$count = 0;
+          foreach($types as $type) {
+            $places = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+            $places_total = mysql_num_rows($places);
+            while($place = mysql_fetch_assoc($places)) {
+              $place['title'] = htmlspecialchars_decode(addslashes(htmlspecialchars($place['title'])));
+              $place['description'] = htmlspecialchars_decode(addslashes(htmlspecialchars($place['description'])));
+              $place['uri'] = addslashes(htmlspecialchars($place['uri']));
+              $place['address'] = htmlspecialchars_decode(addslashes(htmlspecialchars($place['address'])));
+              echo "
+                markers.push(['".$place['title']."', '".$place['type']."', '".$place['lat']."', '".$place['lng']."', '".$place['description']."', '".$place['uri']."', '".$place['address']."']); 
+                markerTitles[".$marker_id."] = '".$place['title']."';
+              "; 
+           #   $count[$place['type']]++;
+              $marker_id++;
+            }
+          }
+          if($show_events == true) {
+            $place['type'] = "event";
+            $events = mysql_query("SELECT * FROM events WHERE start_date < ".(time()+4838400)." ORDER BY id DESC");
+            $events_total = mysql_num_rows($events);
+            while($event = mysql_fetch_assoc($events)) {
+              $event['title'] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[title])));
+              $event['description'] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[description])));
+              $event['uri'] = addslashes(htmlspecialchars($event[uri]));
+              $event['address'] = htmlspecialchars_decode(addslashes(htmlspecialchars($event[address])));
+              $event['start_date'] = date("D, M j @ g:ia", $event[start_date]);
+              echo "
+                markers.push(['".$event['title']."', 'event', '".$event['lat']."', '".$event['lng']."', '".$event['start_date']."', '".$event['uri']."', '".$event['address']."']); 
+                markerTitles[".$marker_id."] = '".$event['title']."';
+              "; 
+            #  $count[$place['type']]++;
+              $marker_id++;
+            }
+          }
+
+        ?>
+
+        // add markers
+        jQuery.each(markers, function(i, val) {
+          infowindow = new google.maps.InfoWindow({
+            content: ""
+          });
+
+          // offset latlong ever so slightly to prevent marker overlap
+          rand_x = Math.random();
+          rand_y = Math.random();
+          val[2] = parseFloat(val[2]) + parseFloat(parseFloat(rand_x) / 6000);
+          val[3] = parseFloat(val[3]) + parseFloat(parseFloat(rand_y) / 6000);
+
+          // show smaller marker icons on mobile
+          if(agent == "iphone") {
+            var iconSize = new google.maps.Size(16,19);
+          } else {
+            iconSize = null;
+          }
+
+          // build this marker
+          var markerImage = new google.maps.MarkerImage("./images/icons/"+val[1]+".png", null, null, null, iconSize);
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(val[2],val[3]),
+            map: map,
+            title: '',
+            clickable: true,
+            infoWindowHtml: '',
+            zIndex: 10 + i,
+            icon: markerImage
+          });
+          marker.type = val[1];
+          gmarkers.push(marker);
+
+          // add marker hover events (if not viewing on mobile)
+          if(agent == "default") {
+            google.maps.event.addListener(marker, "mouseover", function() {
+              this.old_ZIndex = this.getZIndex(); 
+              this.setZIndex(9999); 
+              $("#marker"+i).css("display", "inline");
+              $("#marker"+i).css("z-index", "99999");
+            });
+            google.maps.event.addListener(marker, "mouseout", function() { 
+              if (this.old_ZIndex && zoomLevel <= 15) {
+                this.setZIndex(this.old_ZIndex); 
+                $("#marker"+i).css("display", "none");
+              }
+            }); 
+          }
+
+          // format marker URI for display and linking
+          var markerURI = val[5];
+          if(markerURI.substr(0,7) != "http://") {
+            markerURI = "http://" + markerURI; 
+          }
+          var markerURI_short = markerURI.replace("http://", "");
+          var markerURI_short = markerURI_short.replace("www.", "");
+
+          // add marker click effects (open infowindow)
+          google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(
+              "<div class='marker_title'>"+val[0]+"</div>"
+              + "<div class='marker_uri'><a target='_blank' href='"+markerURI+"'>"+markerURI_short+"</a></div>"
+              + "<div class='marker_desc'>"+val[4]+"</div>"
+              + "<div class='marker_address'>"+val[6]+"</div>"
+            );
+            infowindow.open(map, this);
+          });
+
+          // add marker label
+          var latLng = new google.maps.LatLng(val[2], val[3]);
+          var label = new Label({
+            map: map,
+            id: i
+          });
+          label.bindTo('position', marker);
+          label.set("text", val[0]);
+          label.bindTo('visible', marker);
+          label.bindTo('clickable', marker);  
+          label.bindTo('zIndex', marker);
+        });
+
+
+        // zoom to marker if selected in search typeahead list
+        $('#search').typeahead({
+          source: markerTitles, 
+          onselect: function(obj) {
+            marker_id = jQuery.inArray(obj, markerTitles);
+            if(marker_id) {
+              map.panTo(gmarkers[marker_id].getPosition());
+              map.setZoom(15);
+              google.maps.event.trigger(gmarkers[marker_id], 'click');
+            }
+            $("#search").val("");
+          }
+        });
+      } 
+
+
+      // zoom to specific marker
+      function goToMarker(marker_id) {
+        if(marker_id) {
+          map.panTo(gmarkers[marker_id].getPosition());
+          map.setZoom(15);
+          google.maps.event.trigger(gmarkers[marker_id], 'click');
+        }
+      }
+
+      // toggle (hide/show) markers of a given type (on the map)
+      function toggle(type) {
+        if($('#filter_'+type).is('.inactive')) {
+          show(type); 
+        } else {
+          hide(type); 
+        }
+      }
+
+      // hide all markers of a given type
+      function hide(type) {
+        for (var i=0; i<gmarkers.length; i++) {
+          if (gmarkers[i].type == type) {
+            gmarkers[i].setVisible(false);
+          }
+        }
+        $("#filter_"+type).addClass("inactive");
+      }
+
+      // show all markers of a given type
+      function show(type) {
+        for (var i=0; i<gmarkers.length; i++) {
+          if (gmarkers[i].type == type) {
+            gmarkers[i].setVisible(true);
+          }
+        }
+        $("#filter_"+type).removeClass("inactive");
+      }
+      
+      // toggle (hide/show) marker list of a given type
+      function toggleList(type) {
+        $("#list .list-"+type).toggle();
+      }
+
+
+      // hover on list item
+      //}
+      function markerListMouseOut(marker_id) {
+        $("#marker"+marker_id).css("display", "none");
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    
+    <?php echo $head_html; ?>
+  </head>
+  <body>
+    
+    <!-- facebook subscribe button code -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=278428205520340";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+    <!-- google map -->
+    <div id="map_canvas">
+    </div>
+    
+    <!-- main menu bar -->
+    <div class="menu" id="menu">
+      <div class="wrapper">
+        <div class="logo">
+          <a href="./">
+            <h2>Startups Mexico</h2>
+            <!-- <img src="images/logo.png" alt="" /> -->
+          </a>
+
+        </div>
+        <div class="blurb">
+          This map was made to connect and promote Mexico Startup community.
+        </div>
+
+        <div class="share">
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://startups_mexico.info" data-text="Let's put Mexico startups on the map:" data-via="startups_mexico" data-count="none">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        <div class="fb-subscribe" data-href="https://www.facebook.com/startups_mexico" data-layout="button_count" data-show-faces="true" data-font="tahoma" data-width="100"></div>
+        </div>
+        <div class="blurb">
+          <!-- per our license, you may not remove this line -->
+          <?php echo $attribution;?>
+        </div>
+        <div class="search">
+          <input type="text" name="search" id="search" placeholder="Type a company name..." data-provide="typeahead" autocomplete="off" />
+        </div>
+      </div>
+      <ul class="list" id="list">
+        <?php
+          $types = Array(
+              Array('startup', 'Startups'),
+              Array('accelerator','Accelerators'),
+              Array('incubator', 'Incubators'), 
+              Array('coworking', 'Coworking'), 
+              Array('investor', 'Investors'),
+              //Array('service', 'Consulting')
+              );
+          if($show_events == true) {
+            $types[] = Array('event', 'Events'); 
+          }
+          $marker_id = 0;
+          foreach($types as $type) {
+            if($type[0] != "event") {
+              $markers = mysql_query("SELECT * FROM places WHERE approved='1' AND type='$type[0]' ORDER BY title");
+            } else {
+              $markers = mysql_query("SELECT * FROM events WHERE start_date < ".(time()+4838400)." ORDER BY id DESC");
+            }
+            $markers_total = mysql_num_rows($markers);
+            echo "
+              <li class='category'>
+                <div class='category_item'>
+                  <div class='category_toggle' onClick=\"toggle('$type[0]')\" id='filter_$type[0]'></div>
+                  <a href='#' onClick=\"toggleList('$type[0]');\" class='category_info'><img src='./images/icons/$type[0].png' alt='' />$type[1]<span class='total'> ($markers_total)</span></a>
+                </div>
+                <ul class='list-items list-$type[0]'>
+            ";
+            while($marker = mysql_fetch_assoc($markers)) {
+              echo "
+                  <li class='".$marker['type']."'>
+                    <a href='#' onMouseOver=\"markerListMouseOver('".$marker_id."')\" onMouseOut=\"markerListMouseOut('".$marker_id."')\" onClick=\"goToMarker('".$marker_id."');\">".$marker['title']."</a>
+                  </li>
+              ";
+              $marker_id++;
+            }
+            echo "
+                </li>
+              </ul>
+            ";
+          }
+        ?>
+      </ul>
+    </div>o
+    
+    <header>
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              </a>
+              
+          <a class="brand" href="#">Startups Mexico</a>
+            <div class="nav-collapse">
+            <ul class="nav">
+<!--             <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Eventos <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a>Consultar</a></li>
+                        <li><a>Editar</a></li>
+                    </ul>
+                </li>
+            <li> -->
+              <div class="buttons">
+                <a href="#modal_add" class="btn btn-large btn-inverse" data-toggle="modal">Add Something!</a>
+                <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal">About</a>
+              </div>
+            </li>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- main menu bar (mobile) -->
+    <div class="menu_mobile">
+      <div class="wrapper">
+        <div class="buttons">
+          <a href="#modal_add" class="btn btn-large btn-inverse" data-toggle="modal">Add</a>
+          <a href="#modal_info" class="btn btn-large" data-toggle="modal">Info</a>
+        </div>
+        <div class="logo">
+          <a href="http://startupsmexico.info/">
+            <h2>Startups Mexico</h2>
+            <!-- <img src="images/logo.png" alt="Startups Mexico" /> -->
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- more info modal -->
+    <div class="modal hide" id="modal_info">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h1>About Startups Mexico</h1>
+      </div>
+      <div class="modal-body">
+        <p>
+          We built this map to connect and promote Mexico's startup community. If you don't see your company,
+          please <a href="#modal_add" data-toggle="modal" data-dismiss="modal">submit it here</a>.
+          
+        </p>
+        <p>
+          Questions? Feedback? Connect with us: <a href="http://www.twitter.com/COD3BOY" target="_blank">@startup_mexico</a>
+        </p>
+
+        <p>Created by <a href="http://www.twitter.com/COD3BOY" target="_blank">@zul_celeste</a>
+        </p>
+        
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+      </div>
+    </div>
+    
+    
+    <!-- add something modal -->
+    <div class="modal hide" id="modal_add">
+      <form action="add.php" id="modal_addform" class="form-horizontal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h3>Add Something!</h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            Want to add your company to this map?
+            Submit it below and we'll review it ASAP.
+          </p>
+          <div id="result"></div>
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="add_owner_name">Your Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="owner_name" id="add_owner_name" maxlength="100">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_owner_email">Your Email</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="owner_email" id="add_owner_email" maxlength="100">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_title">Company Name</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="title" id="add_title" maxlength="100">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input01">Company Type</label>
+              <div class="controls">
+                <select name="type" id="add_type" class="input-xlarge">
+                  <option value="startup">Startup</option>
+                  <option value="accelerator">Accelerator</option>
+                  <option value="incubator">Incubator</option>
+                  <option value="coworking">Coworking</option>
+                  <option value="investor">VC/Angel</option>
+                  <option value="service">Consulting Firm</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_address">Address</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" name="address" id="add_address">
+                <p class="help-block">
+                  Should be your <b>full street address (including city and zip)</b>.
+                  If it works on Google Maps, it will work here.
+                </p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_uri">Website URL</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" id="add_uri" name="uri" placeholder="http://">
+                <p class="help-block">
+                  Should be your full URL with no trailing slash, e.g. "http://www.yoursite.com"
+                </p>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="add_description">Description</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" id="add_description" name="description" maxlength="150">
+                <p class="help-block">
+                  Brief, concise description. What's your product? What problem do you solve? Max 150 chars.
+                </p>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit for Review</button>
+          <a href="#" class="btn" data-dismiss="modal" style="float: right;">Close</a>
+        </div>
+      </form>
+    </div>
+    <script>
+      // add modal form submit
+      $("#modal_addform").submit(function(event) {
+        event.preventDefault(); 
+        // get values
+        var $form = $( this ),
+            owner_name = $form.find( '#add_owner_name' ).val(),
+            owner_email = $form.find( '#add_owner_email' ).val(),
+            title = $form.find( '#add_title' ).val(),
+            type = $form.find( '#add_type' ).val(),
+            address = $form.find( '#add_address' ).val(),
+            uri = $form.find( '#add_uri' ).val(),
+            description = $form.find( '#add_description' ).val(),
+            url = $form.attr( 'action' );
+
+        // send data and get results
+        $.post( url, { owner_name: owner_name, owner_email: owner_email, title: title, type: type, address: address, uri: uri, description: description },
+          function( data ) {
+            var content = $( data ).find( '#content' );
+            
+            // if submission was successful, show info alert
+            if(data == "success") {
+              $("#modal_addform #result").html("We've received your submission and will review it shortly. Thanks!"); 
+              $("#modal_addform #result").addClass("alert alert-info");
+              $("#modal_addform p").css("display", "none");
+              $("#modal_addform fieldset").css("display", "none");
+              $("#modal_addform .btn-primary").css("display", "none");
+              
+            // if submission failed, show error
+            } else {
+              $("#modal_addform #result").html(data); 
+              $("#modal_addform #result").addClass("alert alert-danger");
+            }
+          }
+        );
+      });
+ </script>
+    
+    
+  </body>
 </html>
