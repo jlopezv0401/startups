@@ -4,19 +4,19 @@
 $db_host = "192.168.10.240";
 
 // database name
-$db_name = "startup";
+$db_name = "startupsmexico";
 
 // database user name
-$db_user = "root";
+$db_user = "adminc3sGp5Y";
 
 // database password
-$db_pass = "moises";
+$db_pass = "U9U7b8y8W5Ay";
 
 // admin username
 $admin_user = "admin";
 
 // admin password
-$admin_pass = "admin";
+$admin_pass = "AY-o017@1H672n3";
 
 // HTML that goes just before </head>
 $head_html = "";
