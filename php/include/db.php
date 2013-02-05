@@ -1,7 +1,7 @@
 <?php
 
 // mysql hostname
-$db_host = "192.168.10.240";
+$db_host = "127.8.170.1";
 
 // database name
 $db_name = "startupsmexico";
