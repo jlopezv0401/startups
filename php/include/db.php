@@ -1,5 +1,7 @@
 <?php
 
+//Production Enviroment
+
 // mysql hostname
 $db_host = "127.8.170.1";
 
@@ -16,7 +18,30 @@ $db_pass = "U9U7b8y8W5Ay";
 $admin_user = "admin";
 
 // admin password
-$admin_pass = "AY-o017@1H672n3";
+$admin_pass = "6hN1&=}+:/T=<8/";
+
+// HTML that goes just before </head>
+$head_html = "";
+
+//Development Enviroment
+
+// // mysql hostname
+// $db_host = "192.168.10.240";
+
+// // database name
+// $db_name = "startup";
+
+// // database user name
+// $db_user = "root";
+
+// // database password
+// $db_pass = "moises";
+
+// // admin username
+// $admin_user = "admin";
+
+// // admin password
+// $admin_pass = "admin";
 
 // HTML that goes just before </head>
 $head_html = "";
@@ -44,9 +69,9 @@ $show_events = true;
 
     // specify city to search in and around
     // example: Santa+Monica
-    $eb_city = "Santa+Monica";
+    $eb_city = "Mexico";
 
     // specify search radius (in miles)
-    $eb_within_radius = 100;
+    $eb_within_radius = 80;
 
 ?>

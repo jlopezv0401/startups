@@ -133,7 +133,7 @@ include "header.php";
         var myOptions = {
           zoom: 7,
           //minZoom: 10,
-          center: new google.maps.LatLng(19.462708,-99.135338),
+          center: new google.maps.LatLng(19.458823,-99.136711),
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           panControl: false,
           streetViewControl: false,
@@ -171,7 +171,7 @@ include "header.php";
               Array('incubator', 'Incubators'), 
               Array('coworking', 'Coworking'), 
                Array('investor', 'Investors'),
-              //Array('service', 'Consulting'),
+              Array('service', 'Consulting'),
               Array('event', 'Events'),
               );
           $marker_id = 0;
@@ -290,7 +290,7 @@ include "header.php";
           label.bindTo('position', marker);
           label.set("text", val[0]);
           label.bindTo('visible', marker);
-          label.bindTo('clickable', marker);  
+          label.bindTo('clickable', marker);
           label.bindTo('zIndex', marker);
         });
 
@@ -376,33 +376,54 @@ include "header.php";
   js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=278428205520340";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-
-
+    
     <!-- google map -->
-    <div id="map_canvas">
-    </div>
+    <div id="map_canvas"></div>
+
+        <header>
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+              
+            <a class="brand" href="#">Startups Mexico</a>
+            <div class="nav-collapse">
+            <ul class="nav">
+              <div class="buttons">
+                <a href="#modal_add" class="btn btn-large btn-primary" data-toggle="modal">Add Something!</a>
+                <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal">About</a>
+              </div>
+            </li>
+          </div>
+        </div>
+      </div>
+    </header>
     
     <!-- main menu bar -->
     <div class="menu" id="menu">
       <div class="wrapper">
         <div class="logo">
           <a href="./">
-            <h2>Startups Mexico</h2>
             <!-- <img src="images/logo.png" alt="" /> -->
+            <h2>Startups Mexico</h2>
           </a>
-
         </div>
         <div class="blurb">
-          This map was made to connect and promote Mexico Startup community.
+          This map was made to connect and promote Mexico's startup community.
+          
         </div>
-
+<!--         <div class="buttons">
+          <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal">More Info</a>
+          <a href="#modal_add" class="btn btn-large btn-inverse" data-toggle="modal">Add Something!</a>
+        </div> -->
         <div class="share">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://startups_mexico.info" data-text="Let's put Mexico startups on the map:" data-via="startups_mexico" data-count="none">Tweet</a>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://startupsmexico.info" data-text="Join the biggest Startups network in Mexico:" data-via="startups_mexico" data-count="none">Tweet</a>
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        <div class="fb-subscribe" data-href="https://www.facebook.com/startups_mexico" data-layout="button_count" data-show-faces="true" data-font="tahoma" data-width="100"></div>
+        <div class="fb-subscribe" data-href="https://www.facebook.com/startupsmexico" data-layout="button_count" data-show-faces="true" data-font="tahoma" data-width="100"></div>
         </div>
         <div class="blurb">
           <!-- per our license, you may not remove this line -->
@@ -456,39 +477,9 @@ include "header.php";
           }
         ?>
       </ul>
-    </div>o
+    </div>
     
-    <header>
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              </a>
-              
-          <a class="brand" href="#">Startups Mexico</a>
-            <div class="nav-collapse">
-            <ul class="nav">
-<!--             <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Eventos <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a>Consultar</a></li>
-                        <li><a>Editar</a></li>
-                    </ul>
-                </li>
-            <li> -->
-              <div class="buttons">
-                <a href="#modal_add" class="btn btn-large btn-inverse" data-toggle="modal">Add Something!</a>
-                <a href="#modal_info" class="btn btn-large btn-info" data-toggle="modal">About</a>
-              </div>
-            </li>
-          </div>
-        </div>
-      </div>
-    </header>
-
+    
     <!-- main menu bar (mobile) -->
     <div class="menu_mobile">
       <div class="wrapper">
@@ -497,10 +488,10 @@ include "header.php";
           <a href="#modal_info" class="btn btn-large" data-toggle="modal">Info</a>
         </div>
         <div class="logo">
-          <a href="http://startupsmexico.info/">
-            <h2>Startups Mexico</h2>
-            <!-- <img src="images/logo.png" alt="Startups Mexico" /> -->
-          </a>
+<!--           <a href="http://represent.la/">
+            <img src="images/logo.png" alt="RepresentLA" />
+          </a> -->
+          <h2>Startups Mexico</h2>
         </div>
       </div>
     </div>
@@ -510,19 +501,20 @@ include "header.php";
     <div class="modal hide" id="modal_info">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h1>About Startups Mexico</h1>
+        <h3>About This Map</h3>
       </div>
       <div class="modal-body">
         <p>
-          We built this map to connect and promote Mexico's startup community. If you don't see your company,
+          We built this map to connect and promote Mexico's Startups Community If you don't see your company,
           please <a href="#modal_add" data-toggle="modal" data-dismiss="modal">submit it here</a>.
           
         </p>
         <p>
-          Questions? Feedback? Connect with us: <a href="http://www.twitter.com/COD3BOY" target="_blank">@startup_mexico</a>
+          Questions? Feedback? Connect with us: <a href="http://www.twitter.com/startups_mexico" target="_blank">@startups_mexico</a>
         </p>
 
-        <p>Created by <a href="http://www.twitter.com/COD3BOY" target="_blank">@zul_celeste</a>
+        <p>
+          Created by <a href="http://www.twitter.com/zul_celeste" target="_blank">@zul_celeste</a>
         </p>
         
       </div>
@@ -573,7 +565,7 @@ include "header.php";
                   <option value="incubator">Incubator</option>
                   <option value="coworking">Coworking</option>
                   <option value="investor">VC/Angel</option>
-                  <option value="service">Consulting Firm</option>
+<!--                   <option value="service">Consulting Firm</option> -->
                 </select>
               </div>
             </div>

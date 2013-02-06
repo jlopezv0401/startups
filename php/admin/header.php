@@ -58,7 +58,7 @@ if($page != "login") {
       <div class='navbar-inner'>
         <div class='container'>
           <a class='brand' href='index.php'>
-            Startups Mexico
+            RepresentMap
           </a>
           <ul class='nav'>
             <li"; if($view == "") { $admin_head .= " class='active'"; } $admin_head .= ">
