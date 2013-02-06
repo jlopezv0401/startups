@@ -18,7 +18,7 @@ $db_pass = "U9U7b8y8W5Ay";
 $admin_user = "admin";
 
 // admin password
-$admin_pass = "6hN1&=}+:/T=<8/";
+$admin_pass = "jRecyfSUH7LZh6DJ";
 
 // HTML that goes just before </head>
 $head_html = "";
